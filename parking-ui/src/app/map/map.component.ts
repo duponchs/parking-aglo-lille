@@ -21,7 +21,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     shadowSize: [41, 41]
   });
 
-  parkings:ParkingInfo[]=[];
+  parkings:ParkingInfo[];
   isLoaded:boolean = false;
 
   constructor(private parkingService:ParkingService) { }
@@ -33,10 +33,12 @@ export class MapComponent implements OnInit, AfterViewInit {
         this.isLoaded = true;
       }
     );
+    this.parkings.reverse
   }
 
   ngAfterViewInit():void{
     this.createMap();
+    this.ajoutMarkers();
   }
 
   createMap(){
@@ -71,7 +73,11 @@ export class MapComponent implements OnInit, AfterViewInit {
     //  Centre ville de Lille
     //`
     
+    
+    
+  }
 
+  ajoutMarkers(){
     this.parkings.forEach(parking => {
       this.addMarker(parking)
     });
@@ -79,7 +85,8 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   addMarker(parking:ParkingInfo){
     const marker = L.marker([parking.geometry.coordinates[1], parking.geometry.coordinates[0]],{ icon:this.smallIcon});
-    marker.addTo(this.map).bindPopup(parking.nom);
+    marker.addTo(this.map).bindPopup('<div>'+parking.nom +
+      '<br> Nombre de places disponibles '+ parking.nbPlacesDispo.toString()+
+      '<br> Statut '+parking.statut+'</div>');
   }
-  
 }

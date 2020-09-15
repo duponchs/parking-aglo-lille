@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParkingService } from '../parking.service';
 import { ParkingInfo } from '../parkinginfo';
+import { MapComponent } from '../map/map.component';
 
 @Component({
   selector: 'app-parking-detail',
@@ -13,7 +14,7 @@ export class ParkingDetailComponent implements OnInit {
   parking:ParkingInfo;
   isLoaded:boolean = false;
 
-  constructor(private route: ActivatedRoute, private parkingService:ParkingService) { }
+  constructor(private route: ActivatedRoute, private parkingService:ParkingService, private map:MapComponent) { }
 
   ngOnInit(): void {
     const parkingId = this.route.snapshot.paramMap.get('id');
@@ -23,6 +24,8 @@ export class ParkingDetailComponent implements OnInit {
         this.isLoaded = true;
       }
     );
+  
+
   }
   changeStatutPoint(parking:ParkingInfo){
     if(parking.statut === 'OUVERT'){
