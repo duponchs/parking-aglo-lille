@@ -1,0 +1,25 @@
+<div *ngIf="!isLoaded" style="margin-top: 10px; width: 100%;">
+    <mat-spinner style="margin: 0 auto" color="accent" diameter="30"></mat-spinner>
+</div>
+<div style="margin-top: 10px" *ngIf="isLoaded">
+    <mat-card class="parking-detail">
+        
+        <mat-card-header>
+            <mat-card-title>{{ parking.nom }}</mat-card-title>
+            <mat-card-subtitle [ngStyle]="changeStatutPoint(parking)">{{ parking.statut }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <span>Places disponibles : {{ parking.nbPlacesDispo }}</span><br>
+            <span>Places au Total : {{ parking.nbPlacesTotal }}</span><br>
+            <br>
+            <span style="font-style: italic;">Dernière mise à jour à {{ parking.heureMaj }}</span><br>
+        </mat-card-content>
+
+    </mat-card>
+</div>
+<div style="display: flex; justify-content: center;">
+    <button mat-icon-button [routerLink]="['/parkings']">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+</div>
+
