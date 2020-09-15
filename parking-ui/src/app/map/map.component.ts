@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-import { ActivatedRoute } from '@angular/router';
 import { ParkingService } from '../parking.service';
 import { ParkingInfo } from '../parkinginfo';
 
@@ -9,7 +8,7 @@ import { ParkingInfo } from '../parkinginfo';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit  {
+export class MapComponent implements OnInit, AfterViewInit {
   map;
   
   smallIcon = new L.Icon({
@@ -22,16 +21,26 @@ export class MapComponent implements OnInit  {
     shadowSize: [41, 41]
   });
 
-  parking:ParkingInfo;
+  parkings:ParkingInfo[]=[];
   isLoaded:boolean = false;
 
-  constructor(private route: ActivatedRoute, private parkingService:ParkingService) { }
+  constructor(private parkingService:ParkingService) { }
 
   ngOnInit(): void {
+    this.parkingService.getParkings().subscribe(
+      reponse =>{
+        this.parkings = reponse;
+        this.isLoaded = true;
+      }
+    );
+  }
+
+  ngAfterViewInit():void{
     this.createMap();
   }
 
   createMap(){
+    
     // Je creer une position pos de lille
     const agloLille = {
       lat: 50.6333,
@@ -61,14 +70,16 @@ export class MapComponent implements OnInit  {
     //const description = `
     //  Centre ville de Lille
     //`
-    // this.addMarker(description,agloLille);
+    
 
-    //this.addMarkerParking()
- 
+    this.parkings.forEach(parking => {
+      this.addMarker(parking)
+    });
   }
 
-  addMarker(description,agloLille){
-    const marker = L.marker([agloLille.lat, agloLille.long],{ icon:this.smallIcon});
-    marker.addTo(this.map).bindPopup(description);
+  addMarker(parking:ParkingInfo){
+    const marker = L.marker([parking.geometry.coordinates[1], parking.geometry.coordinates[0]],{ icon:this.smallIcon});
+    marker.addTo(this.map).bindPopup(parking.nom);
   }
+  
 }
