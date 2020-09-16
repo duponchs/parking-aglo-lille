@@ -23,33 +23,36 @@ export class MapDetailService {
   constructor(private markerService: MarkerService) { }
 
   createMap(parking:ParkingInfo){
-    
-    // Je creer une position pos de lille
-    const agloLille = {
-      lat: 50.6333,
-      long: 3.0667,
-    };
-    // zoom standard
-    const zoomLevel = 12;
+    //if(this.map == undefined || this.map != null){
+        // Je creer une position pos de lille
+      const agloLille = {
+        lat: parking.geometry.coordinates[1],
+        long: parking.geometry.coordinates[0],
+      };
+      // zoom standard
+      const zoomLevel = 12;
 
-    // j'applique les options a la map
-    this.map = L.map('map',{
+      // j'applique les options a la map
+      this.map = L.map('map',{
       center: [agloLille.lat, agloLille.long],
       zoom: zoomLevel
       
-    });
+      });
 
-    // je creer la page et met les sources de l'api
-    const mainLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-      minZoom: 12,
-      maxZoom:17,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    });
+      // je creer la page et met les sources de l'api
+      const mainLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        minZoom: 12,
+        maxZoom:17,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      });
 
-    // j'associe les options
-    mainLayer.addTo(this.map);
-    console.log(parking);
-    //ajout marker
-    this.markerService.makeParkingMarker(this.map,parking);
+      // j'associe les options
+      mainLayer.addTo(this.map);
+      this.markerService.makeParkingMarker(this.map,parking);
+    }
+    
+  //}
+  getParking(parking:ParkingInfo){
+    
   }
 }

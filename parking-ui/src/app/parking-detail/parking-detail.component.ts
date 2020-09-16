@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParkingService } from '../parking.service';
 import { ParkingInfo } from '../parkinginfo';
@@ -11,7 +11,7 @@ import { MarkerService } from '../marker.service';
   templateUrl: './parking-detail.component.html',
   styleUrls: ['./parking-detail.component.scss']
 })
-export class ParkingDetailComponent implements OnInit, AfterViewInit {
+export class ParkingDetailComponent implements OnInit {
   
   parking:ParkingInfo;
   isLoaded:boolean = false;
@@ -24,15 +24,12 @@ export class ParkingDetailComponent implements OnInit, AfterViewInit {
       reponse =>{
         this.parking = reponse;
         this.isLoaded = true;
-        console.log(this.parking);
+        this.mapDetailService.createMap(this.parking);
       }
     );
   }
-  ngAfterViewInit():void{
-   // console.log("toto :"+this.parking);
-   // this.mapDetailService.createMap(this.parking);
-  }
   changeStatutPoint(parking:ParkingInfo){
+    
     if(parking.statut === 'OUVERT'){
       return {color:'green'}
     }else if (parking.statut === 'ABONNES'){
@@ -44,5 +41,4 @@ export class ParkingDetailComponent implements OnInit, AfterViewInit {
       return{'font-style':'Italic'}
     }
   }
-  
 }
