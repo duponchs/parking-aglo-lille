@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
+import { MarkerService } from './marker.service';
+import { ParkingInfo } from './parkinginfo';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapDetailService {
-  map;
+  private map;
   smallIcon = new L.Icon({
     iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-icon.png',
     iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-icon-2x.png',
@@ -16,9 +18,11 @@ export class MapDetailService {
     shadowSize: [41, 41]
   });
 
-  constructor() { }
+  
 
-  createMap(){
+  constructor(private markerService: MarkerService) { }
+
+  createMap(parking:ParkingInfo){
     
     // Je creer une position pos de lille
     const agloLille = {
@@ -44,5 +48,8 @@ export class MapDetailService {
 
     // j'associe les options
     mainLayer.addTo(this.map);
+    console.log(parking);
+    //ajout marker
+    this.markerService.makeParkingMarker(this.map,parking);
   }
 }

@@ -4,8 +4,8 @@ public class Parking {
     private String id;
     private String nom;
     private Integer nbPlacesDispo;
-    private Integer nbPlacesTotal;
     private Geometry geometry;
+    private Integer nbPlacesTotal;
     private String statut;
     private String heureMaj;
     private String ville;

@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParkingService } from '../parking.service';
 import { ParkingInfo } from '../parkinginfo';
 import { MapDetailService } from '../map-detail.service';
+import { MarkerService } from '../marker.service';
+
 
 @Component({
   selector: 'app-parking-detail',
   templateUrl: './parking-detail.component.html',
   styleUrls: ['./parking-detail.component.scss']
 })
-export class ParkingDetailComponent implements OnInit {
+export class ParkingDetailComponent implements OnInit, AfterViewInit {
   
   parking:ParkingInfo;
   isLoaded:boolean = false;
 
-  constructor(private route: ActivatedRoute, private parkingService:ParkingService,private mapDetailService:MapDetailService) { }
+  constructor(private route: ActivatedRoute, private parkingService:ParkingService,private mapDetailService:MapDetailService, private marker:MarkerService ) { }
 
   ngOnInit(): void {
     const parkingId = this.route.snapshot.paramMap.get('id');
@@ -22,11 +24,13 @@ export class ParkingDetailComponent implements OnInit {
       reponse =>{
         this.parking = reponse;
         this.isLoaded = true;
+        console.log(this.parking);
       }
     );
-    this.mapDetailService.createMap();
-  
-
+  }
+  ngAfterViewInit():void{
+   // console.log("toto :"+this.parking);
+   // this.mapDetailService.createMap(this.parking);
   }
   changeStatutPoint(parking:ParkingInfo){
     if(parking.statut === 'OUVERT'){
@@ -40,4 +44,5 @@ export class ParkingDetailComponent implements OnInit {
       return{'font-style':'Italic'}
     }
   }
+  
 }

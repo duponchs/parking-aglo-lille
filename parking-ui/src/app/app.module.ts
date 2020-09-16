@@ -12,6 +12,9 @@ import { ParkingDetailComponent } from './parking-detail/parking-detail.componen
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MapComponent } from './map/map.component';
+import { MarkerService } from './marker.service';
+import { MapDetailService } from './map-detail.service';
+import { PopUpService } from './pop-up.service';
 
 @NgModule({
   declarations: [
@@ -29,9 +32,9 @@ import { MapComponent } from './map/map.component';
     MatProgressSpinnerModule,
     AppRoutingModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
   ],
-  providers: [],
+  providers: [MarkerService,MapDetailService,PopUpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
