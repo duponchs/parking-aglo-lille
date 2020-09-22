@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 
+/**
+ * publique classe ParkingAPIDAOImpl
+ * qui implément ParkingAPIDAO
+ */
 @Repository
 public class ParkingAPIDAOImpl implements ParkingAPIDAO {
 
@@ -15,6 +19,9 @@ public class ParkingAPIDAOImpl implements ParkingAPIDAO {
     @Autowired
     private RestTemplate restTemplate;
 
+    /**
+     * @return la liste des parkings
+     */
     @Override
     public ReponseParkingAPIEntity getListeParking() {
         return restTemplate.getForEntity(URL_API_OPEN_DATA,ReponseParkingAPIEntity.class).getBody();
